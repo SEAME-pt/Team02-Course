@@ -1,0 +1,30 @@
+# .clang-format
+---
+BasedOnStyle: LLVM
+IndentWidth: 4             # MISRA prefers consistent indentation for clarity.
+TabWidth: 4
+UseTab: Never              # Always use spaces for indentation.
+BreakBeforeBraces: Allman  # Place braces on a new line (common in MISRA).
+ColumnLimit: 80            # Limit line length for readability.
+AlignConsecutiveAssignments: true # Align assignments for better readability.
+AlignTrailingComments: true       # Align trailing comments to improve clarity.
+AllowShortIfStatementsOnASingleLine: false # Avoid single-line if statements.
+AllowShortLoopsOnASingleLine: false        # Avoid single-line loops.
+AllowShortFunctionsOnASingleLine: Inline  # Allow only very short functions inline.
+SpaceBeforeParens: ControlStatements # Add space before parentheses in control statements.
+PointerAlignment: Left     # Align pointers with the variable (e.g., `int *ptr`).
+IncludeBlocks: Preserve    # Keep the include blocks as they are.
+SortIncludes: false        # Do not reorder include directives.
+
+# Additional settings for structure and readability
+KeepEmptyLinesAtTheStartOfBlocks: false
+IndentCaseLabels: true     # Indent case labels within a switch statement.
+ReflowComments: true       # Reflow long comments to adhere to line limits.
+MaxEmptyLinesToKeep: 1     # Limit consecutive empty lines to one.
+
+# Use more descriptive settings for wrapping
+AllowShortBlocksOnASingleLine: Never
+AlwaysBreakBeforeMultilineStrings: true
+
+# Safety-related adjustments
+FixNamespaceComments: true # Add comments after closing braces of namespaces.

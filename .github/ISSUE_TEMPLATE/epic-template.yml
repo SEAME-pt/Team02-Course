@@ -1,0 +1,48 @@
+name: Epic
+description: A template for creating detailed epics with all necessary information.
+title: "[Epic] "
+labels: 
+  - epic
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Epic
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the objective of this epic, including the broader goals and outcomes expected.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level for this epic.
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: textarea
+    id: related_epics
+    attributes:
+      label: Related Epics
+      description: List any related epics if applicable. Add each related epic as a link or reference number on a new line.
+      placeholder: |
+        - [ ] #
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ### ⚠️ Assignees
+        **Note:** Please ensure to assign at least one responsible person to this epic. The epic cannot proceed without an assignee.
