@@ -1,0 +1,3 @@
+[submodule "Cluster"]
+	path = Cluster
+	url = git@github.com:SEAME-pt/Team02-Cluster.git
