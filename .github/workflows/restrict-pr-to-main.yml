@@ -1,0 +1,31 @@
+name: Restrict PR to Main Branch
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  restrict-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Verify source branch
+      run: |
+        echo "Pull Request from branch: ${{ github.head_ref }}"
+        echo "Target branch: ${{ github.base_ref }}"
+        if [ "${{ github.base_ref }}" != "main" ]; then
+          echo "Error: This workflow is configured to target the 'main' branch only."
+          exit 1
+        fi
+
+        if [ "${{ github.head_ref }}" != "dev" ]; then
+          echo "Error: Only pull requests from 'dev' branch are allowed to be merged into 'main'."
+          exit 1
+        fi
+
+    - name: PR Approved
+      run: echo "Pull Request validation passed. PR from 'dev' to 'main' is valid."

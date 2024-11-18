@@ -1,0 +1,89 @@
+name: Bug
+description: A template for reporting bugs with all necessary information.
+title: "[Bug] "
+labels: 
+  - bug
+  - task
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue in detail, including what is happening versus what is expected.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level for fixing this bug.
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Provide step-by-step instructions to reproduce the bug.
+      placeholder: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: Describe the expected behavior if the bug were not present.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual Behavior
+      description: Describe the actual behavior observed, including any error messages.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Provide details about the environment where the bug occurred (e.g., browser, operating system, application version).
+      placeholder: |
+        - Browser: 
+        - OS: 
+        - App Version: 
+    validations:
+      required: false
+
+  - type: textarea
+    id: story_reference
+    attributes:
+      label: Story Reference
+      description: Link to the associated Story or Task (if applicable).
+      placeholder: |
+        #
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ### ⚠️ Assignees
+        **Note:** Please ensure to assign at least one responsible person to this bug. It cannot proceed without an assignee.

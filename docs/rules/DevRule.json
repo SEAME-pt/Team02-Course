@@ -1,0 +1,36 @@
+{
+  "id": 2548049,
+  "name": "Dev rule",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "SEAME-pt/Team02-Module04",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "refs/heads/dev"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 1,
+        "dismiss_stale_reviews_on_push": false,
+        "require_code_owner_review": true,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": true,
+        "automatic_copilot_code_review_enabled": false
+      }
+    }
+  ],
+  "bypass_actors": []
+}

@@ -1,0 +1,43 @@
+name: Label Priority Based on Task Template
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  apply_priority_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check priority and apply label
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          PRIORITY=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER | 
+            jq -r '.body' | grep -oP "(?<=### Priority:\n\n).+")
+          
+
+          curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels
+
+          if [[ "$PRIORITY" == "Critical" ]]; then
+            LABEL="priority: Critical"
+          elif [[ "$PRIORITY" == "High" ]]; then
+            LABEL="priority: High"
+          elif [[ "$PRIORITY" == "Medium" ]]; then
+            LABEL="priority: Medium"
+          elif [[ "$PRIORITY" == "Low" ]]; then
+            LABEL="priority: Low"
+          else
+            echo "No matching priority found."
+            exit 0
+          fi
+          
+          curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d "{\"labels\":[\"$LABEL\"]}" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels
