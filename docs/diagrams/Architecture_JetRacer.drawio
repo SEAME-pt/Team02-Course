@@ -250,7 +250,7 @@
         </mxCell>
         <mxCell id="MNZySW5f2h_NPKp3rsub-64" value="" style="shape=link;html=1;rounded=0;width=16.25;fillColor=#b1ddf0;strokeColor=#10739e;strokeWidth=4;labelBackgroundColor=none;fontColor=default;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="MNZySW5f2h_NPKp3rsub-5">
           <mxGeometry width="100" relative="1" as="geometry">
-            <mxPoint x="740" y="735" as="sourcePoint" />
+            <mxPoint x="740" y="700" as="sourcePoint" />
             <mxPoint x="500" y="732.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
