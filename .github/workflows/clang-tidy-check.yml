@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
           make
 
       # Run clang-tidy check
