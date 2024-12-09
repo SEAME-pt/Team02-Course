@@ -20,16 +20,20 @@ jobs:
       - name: Install clang-tidy
         run: sudo apt-get install -y clang-tidy
 
-      # Configure and Build
-      - name: Configure and Build
+      # Find and process each subdirectory with a CMakeLists.txt
+      - name: Configure and Build Projects
         run: |
-          mkdir -p build
-          cd build
-          cmake -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-          make
+          for dir in $(find . -name CMakeLists.txt -exec dirname {} \;); do
+            mkdir -p $dir/build
+            cd $dir/build
+            cmake -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+            make
+            cd -
+          done
 
-      # Run clang-tidy check
+      # Run clang-tidy check for all projects
       - name: Run clang-tidy
         run: |
-          cd build
-          clang-tidy -p=. $(find .. -name '*.cpp') --quiet
+          for dir in $(find . -name compile_commands.json -exec dirname {} \;); do
+            clang-tidy -p=$dir $(find $dir -name '*.cpp') --quiet
+          done
