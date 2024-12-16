@@ -4,3 +4,6 @@
 [submodule "PyRacer"]
 	path = PyRacer
 	url = git@github.com:SEAME-pt/Team02-PyRacer.git
+[submodule "libs"]
+	path = libs
+	url = git@github.com:SEAME-pt/libs.git
