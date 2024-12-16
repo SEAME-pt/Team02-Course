@@ -7,6 +7,3 @@
 [submodule "libs"]
 	path = libs
 	url = git@github.com:SEAME-pt/libs.git
-[submodule "Peripherals"]
-	path = Peripherals
-	url = git@github.com:SEAME-pt/Peripherals.git
