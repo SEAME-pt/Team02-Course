@@ -18,7 +18,7 @@ RUN { \
     apt-get update && \
     apt-get full-upgrade -y && \
     apt-get install -y \
-    libboost-all-dev libudev-dev libinput-dev libts-dev libmtdev-dev \
+    libboost-all-dev libudev-dev libinput-dev libts-dev libmtdev-dev fastdds fastdds-tools\
     libjpeg-dev libfontconfig1-dev libssl-dev libdbus-1-dev libglib2.0-dev \
     libxkbcommon-dev libegl1-mesa-dev libgbm-dev libgles2-mesa-dev \
     mesa-common-dev libasound2-dev libpulse-dev gstreamer1.0-omx \
@@ -34,7 +34,7 @@ RUN { \
     libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev \
     libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev \
     libxcb-glx0-dev libxi-dev libdrm-dev libxcb-xinerama0 libxcb-xinerama0-dev \
-    libatspi2.0-dev libxcursor-dev libxcomposite-dev libxdamage-dev \
+    libatspi2.0-dev libxcursor-dev libxcomposite-dev libxdamage-dev libsocketcan-dev \
     libxss-dev libxtst-dev libpci-dev libcap-dev libxrandr-dev \
     libdirectfb-dev libaudio-dev libxkbcommon-x11-dev gdbserver; \
 } 2>&1 | tee -a /build.log
