@@ -12,7 +12,7 @@ hostPath=$repoPath$projectDir
 
 # Check if the provided path exists
 if [ ! -d "$hostPath" ]; then
-  echo "Error: The provided path does not exist."
+  echo "Error: The provided path ($hostPath) does not exist."
   exit 1
 fi
 
