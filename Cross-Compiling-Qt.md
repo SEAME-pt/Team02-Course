@@ -24,6 +24,6 @@ sudo ./buildQTLinux.sh
 
 ```bash
 chmod +x deployQTApp.sh && \
-sudo ./deployQTApp.sh ##<Project Path> <Repo Path>
+./deployQTApp.sh $PWD /Cluster
 ```
 
