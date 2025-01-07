@@ -30,6 +30,7 @@
 *.exe
 *.out
 *.app
+speedometer
 
 # cmake
 CMakeLists.txt.user
