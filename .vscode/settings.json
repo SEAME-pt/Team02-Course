@@ -4,7 +4,7 @@
         "editor.defaultFormatter": "xaver.clang-format",
         "editor.formatOnSave": true
     },
-    "clang-format.executable": "C:\\Program Files\\LLVM\\bin\\clang-format.exe",
+    "clang-format.executable": "/opt/homebrew/bin/clang-format",
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "C_Cpp.codeAnalysis.clangTidy.path": "C:\\Program Files\\LLVM\\bin\\clang-tidy.exe",
     "files.associations": {
