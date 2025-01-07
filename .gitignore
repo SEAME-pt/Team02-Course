@@ -32,6 +32,9 @@
 *.app
 speedometer
 
+qt-pi-binaries.tar.gz
+rasp.tar.gz
+
 # cmake
 CMakeLists.txt.user
 CMakeCache.txt
