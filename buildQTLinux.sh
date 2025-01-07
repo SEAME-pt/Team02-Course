@@ -2,7 +2,7 @@
 
 # Update package list and install prerequisites
 apt-get update
-apt-get install -y ca-certificates curl gnupg
+apt-get install -y ca-certificates curl gnupg sshpass
 
 # Set up the Docker repository
 install -m 0755 -d /etc/apt/keyrings
