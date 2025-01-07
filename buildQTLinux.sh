@@ -48,4 +48,4 @@ docker cp temp-arm:/build/rasp.tar.gz ./rasp.tar.gz
 
 docker build -t qtcrossbuild .
 
-echo "Docker installation and image 
+echo "Docker installation and image created"
