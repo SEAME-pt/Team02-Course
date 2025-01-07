@@ -209,7 +209,5 @@ RUN { \
     echo "Compilation serialbus is finished"; \
 } 2>&1 | tee -a /build.log
 
-RUN apt-get install fastdds fastdds-tools
-
 RUN tar -czvf qt-host-binaries.tar.gz -C /build/qt6/host .
 RUN tar -czvf qt-pi-binaries.tar.gz -C /build/qt6/pi .
