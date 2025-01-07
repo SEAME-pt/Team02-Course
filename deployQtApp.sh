@@ -8,7 +8,7 @@ fi
 
 projectDir=$2
 repoPath=$1
-hostPath=$repoPath$projectDir
+hostPath=$repoPath/$projectDir
 
 # Check if the provided path exists
 if [ ! -d "$hostPath" ]; then
@@ -26,7 +26,7 @@ qtPathOnTarget=/usr/local/qt6/lib/
 
 echo "build docker image to build app"
 docker build -f Dockerfile.app \
-    --build-arg projectDir=$projectDir \
+    --build-arg projectDir=/$projectDir \
     --build-arg repoPath=$repoPath \
     -t final-app .
 echo "Remove tmpapp container if it is exist"
