@@ -2,13 +2,13 @@
 
 # Check if the hostPath argument is provided
 if [ -z "$1" ] || [ -z "$2" ]; then
-  echo "Usage: $0 <Project Path> <Repo Path>"
+  echo "Usage: $0 <Repo Path> <Project Path>"
   exit 1
 fi
 
-projectDir=$1
-repoPath=$2
-hostPath=$repoPath$projectDir
+projectDir=$2
+repoPath=$1
+hostPath=$repoPath/$projectDir
 
 # Check if the provided path exists
 if [ ! -d "$hostPath" ]; then
