@@ -1,8 +1,8 @@
 FROM qtcrossbuild:latest
 
 # Update the repoPath according to yours
-ARG projectDir=Cluster
-ARG repoPath=/Users/ruipedropires/SEA:ME/Team02-Course/
+ARG projectDir
+ARG repoPath
 
 RUN rm -rf $repoPath$projectDir
 

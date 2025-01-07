@@ -1,11 +1,14 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-  echo "Usage: $0 <Project Path where the CMakeLists.txt resides>"
+# Check if the hostPath argument is provided
+if [ -z "$1" ] || [ -z "$2" ]; then
+  echo "Usage: $0 <Project Path> <Repo Path>"
   exit 1
 fi
 
-hostPath=$1
+projectDir=$1
+repoPath=$2
+hostPath=$repoPath$projectDir
 
 # Check if the provided path exists
 if [ ! -d "$hostPath" ]; then
@@ -22,7 +25,10 @@ qtPathOnTarget=/usr/local/qt6/lib/
 
 
 echo "build docker image to build app"
-docker build -f Dockerfile.app -t final-app .
+docker build -f Dockerfile.app \
+    --build-arg projectDir=$projectDir \
+    --build-arg repoPath=$repoPath \
+    -t final-app .
 echo "Remove tmpapp container if it is exist"
 docker rm -f tmpapp
 echo "Create a tmp container to copy binary"
