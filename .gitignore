@@ -29,7 +29,6 @@
 # Executables
 *.exe
 *.out
-*.app
 speedometer
 
 qt-pi-binaries.tar.gz
