@@ -24,6 +24,6 @@ sudo ./buildQTLinux.sh
 
 ```bash
 chmod +x deployQTApp.sh && \
-sudo ./deployQTApp.sh ##<Project Path where the CMakeLists.txt resides>
+sudo ./deployQTApp.sh ##<Project Path> <Repo Path>
 ```
 
