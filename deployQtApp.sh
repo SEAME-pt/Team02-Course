@@ -8,7 +8,7 @@ fi
 
 projectDir=$2
 repoPath=$1
-hostPath=$repoPath/$projectDir
+hostPath=$repoPath$projectDir
 
 # Check if the provided path exists
 if [ ! -d "$hostPath" ]; then
