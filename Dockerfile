@@ -189,25 +189,5 @@ RUN { \
     echo "Compilation declerative is finished"; \
 } 2>&1 | tee -a /build.log
 
-RUN { \
-    cd qt6/src && \
-     wget https://download.qt.io/official_releases/qt/6.8/6.8.0/submodules/qtserialbus-everywhere-src-6.8.0.tar.xz && \
-    cd ../host-build && \
-    tar xf ../src/qtserialbus-everywhere-src-6.8.0.tar.xz && \
-    echo "Compile serialbus for host" && \
-    cd qtserialbus-everywhere-src-6.8.0 && \
-    /build/qt6/host/bin/qt-configure-module . && \
-    cmake --build . --parallel 4 && \
-    cmake --install . && \
-    cd ../../pi-build && \
-    tar xf ../src/qtserialbus-everywhere-src-6.8.0.tar.xz && \
-    echo "Compile serialbus for rasp" && \
-    cd qtserialbus-everywhere-src-6.8.0 && \
-    /build/qt6/pi/bin/qt-configure-module . && \
-    cmake --build . --parallel 4 && \
-    cmake --install . && \
-    echo "Compilation serialbus is finished"; \
-} 2>&1 | tee -a /build.log
-
 RUN tar -czvf qt-host-binaries.tar.gz -C /build/qt6/host .
 RUN tar -czvf qt-pi-binaries.tar.gz -C /build/qt6/pi .
