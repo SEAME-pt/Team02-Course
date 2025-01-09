@@ -68,6 +68,24 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "__locale": "cpp",
+        "__threading_support": "cpp",
+        "__verbose_abort": "cpp",
+        "bitset": "cpp",
+        "cstring": "cpp",
+        "ios": "cpp",
+        "locale": "cpp",
+        "print": "cpp",
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "__node_handle": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "complex": "cpp",
+        "execution": "cpp",
+        "forward_list": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }
