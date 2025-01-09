@@ -16,7 +16,8 @@ if [ ! -d "$hostPath" ]; then
   exit 1
 fi
 
-executable=speedometer
+executableCluster=speedometer
+executableZenoh=zenoh
 piUserName=team02
 piIpAddress=10.21.221.64
 piPath=/home/team02
@@ -34,6 +35,8 @@ docker rm -f tmpapp
 echo "Create a tmp container to copy binary"
 docker create --name tmpapp final-app
 echo "Copy the binary from tmp container"
-docker cp tmpapp:$hostPath/$executable ./$executable
+docker cp tmpapp:$hostPath/$executableCluster ./$executableCluster
+docker cp tmpapp:$hostPath/$executableZenoh ./$executableZenoh
 echo "Send binary to rasp over scp"
-sshpass -p "$piPass" scp $executable "$piUserName"@"$piIpAddress":"$piPath"
+sshpass -p "$piPass" scp $executableCluster "$piUserName"@"$piIpAddress":"$piPath"
+sshpass -p "$piPass" scp $executableZenoh "$piUserName"@"$piIpAddress":"$piPath"

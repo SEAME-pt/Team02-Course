@@ -1,4 +1,4 @@
-FROM qtcrossbuild:latest
+FROM zenohbuild:latest
 
 # Update the repoPath according to yours
 ARG projectDir
@@ -11,5 +11,7 @@ RUN mkdir -p $repoPath$projectDir
 COPY $projectDir $repoPath$projectDir
 
 RUN cd $repoPath$projectDir && \
-    /build/qt6/pi/bin/qt-cmake . -DCMAKE_BUILD_TYPE=Debug && \
+    /build/qt6/pi/bin/qt-cmake . \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DZENOHCXX_ZENOHC=ON && \
     cmake --build .
