@@ -1,6 +1,3 @@
-# Stage 1: Setting up the environment and copying necessary files from Raspberry Pi OS
-# If you want to choose 32 bit Rasbian then change this line accordingly. Otherwise compilation will fail
-# In this file it is 64 bit -> 2024-07-04-raspios-bookworm-arm64.img
 FROM arm64v8/debian:bookworm
 
 # Avoid interactive prompts during package installation
@@ -18,28 +15,158 @@ RUN { \
     apt-get update && \
     apt-get full-upgrade -y && \
     apt-get install -y \
-    libboost-all-dev libudev-dev libinput-dev libts-dev libmtdev-dev fastdds fastdds-tools\
-    libjpeg-dev libfontconfig1-dev libssl-dev libdbus-1-dev libglib2.0-dev \
-    libxkbcommon-dev libegl1-mesa-dev libgbm-dev libgles2-mesa-dev \
-    mesa-common-dev libasound2-dev libpulse-dev gstreamer1.0-omx \
-    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-alsa \
-    libvpx-dev libsrtp2-dev libsnappy-dev libnss3-dev "^libxcb.*" \
-    flex bison libxslt-dev libc6-arm64-cross ruby gperf libbz2-dev libcups2-dev \
-    libatkmm-1.6-dev libxi6 libxcomposite1 libfreetype6-dev libicu-dev \
-    libsqlite3-dev libxslt1-dev libavcodec-dev libavformat-dev libswscale-dev \
-    libx11-dev freetds-dev libpq-dev libiodbc2-dev firebird-dev \
-    libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev \
-    libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev \
-    libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev \
-    libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev \
-    libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev \
-    libxcb-glx0-dev libxi-dev libdrm-dev libxcb-xinerama0 libxcb-xinerama0-dev \
-    libatspi2.0-dev libxcursor-dev libxcomposite-dev libxdamage-dev libsocketcan-dev \
-    libxss-dev libxtst-dev libpci-dev libcap-dev libxrandr-dev \
-    libdirectfb-dev libaudio-dev libxkbcommon-x11-dev gdbserver; \
+    wget \
+    git \
+    curl \
+    build-essential \
+    make \
+    cmake \
+    rsync \
+    sed \
+    libclang-dev \
+    ninja-build \
+    gcc \
+    bison \
+    python3 \
+    gperf \
+    pkg-config \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libx11-dev \
+    libx11-xcb-dev \
+    libxext-dev \
+    libxfixes-dev \
+    libxi-dev \
+    libxrender-dev \
+    libxcb1-dev \
+    libxcb-glx0-dev \
+    libxcb-keysyms1-dev \
+    libxcb-image0-dev \
+    libxcb-shm0-dev \
+    libxcb-icccm4-dev \
+    libxcb-sync-dev \
+    libxcb-xfixes0-dev \
+    libxcb-shape0-dev \
+    libxcb-randr0-dev \
+    libxcb-render-util0-dev \
+    libxcb-util-dev \
+    libxcb-xinerama0-dev \
+    libxcb-xkb-dev \
+    libxkbcommon-dev \
+    libxkbcommon-x11-dev \
+    libatspi2.0-dev \
+    libgl1-mesa-dev \
+    libglu1-mesa-dev \
+    freeglut3-dev \
+    libssl-dev \
+    libgmp-dev \
+    libmpfr-dev \
+    libmpc-dev \
+    flex \
+    gawk \
+    texinfo \
+    libisl-dev \
+    zlib1g-dev \
+    libtool \
+    autoconf \
+    automake \
+    libgdbm-dev \
+    libdb-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libexpat1-dev \
+    liblzma-dev \
+    libffi-dev \
+    libsqlite3-dev \
+    libbsd-dev \
+    perl \
+    patch \
+    m4 \
+    libncurses5-dev \
+    gettext  \
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
+    binutils-aarch64-linux-gnu \
+    libc6-arm64-cross \
+    libc6-dev-arm64-cross \
+    glibc-source; \
 } 2>&1 | tee -a /build.log
 
 WORKDIR /build
 
-RUN tar cvfz rasp.tar.gz -C / lib usr/include usr/lib
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+WORKDIR /build
+
+RUN { \
+echo "Building CMake from source" && \
+mkdir cmakeBuild && cd cmakeBuild && \
+git clone https://github.com/Kitware/CMake.git && \
+cd CMake && \
+./bootstrap && make -j$(nproc) && make install && \
+echo "CMake build completed"; \
+} 2>&1 | tee -a /build.log
+
+ENV LD_LIBRARY_PATH=/build/qt6/pi/lib
+
+RUN { \
+    set -e && \
+    mkdir -p qt6 qt6/pi qt6/pi-build qt6/src && \
+    cd qt6/src && \
+    wget https://download.qt.io/official_releases/qt/6.8/6.8.0/submodules/qtbase-everywhere-src-6.8.0.tar.xz && \
+    wget https://download.qt.io/official_releases/qt/6.8/6.8.0/submodules/qtshadertools-everywhere-src-6.8.0.tar.xz && \
+    wget https://download.qt.io/official_releases/qt/6.8/6.8.0/submodules/qtdeclarative-everywhere-src-6.8.0.tar.xz && \    
+    cd ../pi-build && \
+    tar xf ../src/qtbase-everywhere-src-6.8.0.tar.xz && \
+    tar xf ../src/qtshadertools-everywhere-src-6.8.0.tar.xz && \
+    tar xf ../src/qtdeclarative-everywhere-src-6.8.0.tar.xz && \
+    echo "Compile qtbase for rasp" && \
+    cd qtbase-everywhere-src-6.8.0 && \
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DINPUT_opengl=es2 \
+        -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF \
+        -DCMAKE_STAGING_PREFIX=/build/qt6/pi \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/qt6 && \
+    cmake --build . --parallel 4 && \
+    cmake --install . && \
+    echo "Compile shader for rasp" && \
+    cd ../qtshadertools-everywhere-src-6.8.0 && \
+    /build/qt6/pi/bin/qt-configure-module . && \
+    cmake --build . --parallel 4 && \
+    cmake --install . && \
+    echo "Compile declerative for rasp" && \
+    cd ../qtdeclarative-everywhere-src-6.8.0 && \
+    /build/qt6/pi/bin/qt-configure-module . && \
+    cmake --build . --parallel 4 && \
+    cmake --install . && \
+    echo "Compilation is finished"; \
+} 2>&1 | tee -a /build.log
+
+RUN { \
+    git clone https://github.com/eclipse-zenoh/zenoh-c.git && \
+    cd zenoh-c && \
+    git checkout release/1.1.0 && \
+    mkdir build && \
+    cd build && \
+    cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DBUILD_SHARED_LIBS=FALSE && \
+    make -j$(nproc) && \
+    make install && \
+    cd ../.. && \
+    git clone https://github.com/eclipse-zenoh/zenoh-cpp.git && \
+    cd zenoh-cpp && \
+    git checkout release/1.1.0 && \
+    mkdir build && \
+    cd build && \
+    cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DBUILD_SHARED_LIBS=FALSE \
+    -Dzenohc_DIR=/usr/local/lib/cmake/zenohc && \
+    make -j$(nproc) && \
+    make install; \
+}
+
+RUN tar -czvf qt-pi-binaries.tar.gz -C /build/qt6/pi .
 

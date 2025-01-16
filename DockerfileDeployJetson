@@ -1,0 +1,16 @@
+FROM zenohbuildjetson:latest
+
+ARG projectDir
+ARG repoPath
+
+RUN rm -rf $repoPath$projectDir
+
+RUN mkdir -p $repoPath$projectDir
+
+COPY $projectDir $repoPath$projectDir
+
+RUN cd $repoPath$projectDir && \
+    cmake . \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DZENOHCXX_ZENOHC=ON && \
+    cmake --build .
