@@ -1,9 +1,6 @@
-[submodule "Cluster"]
-	path = Cluster
-	url = git@github.com:SEAME-pt/Team02-Cluster.git
-[submodule "PyRacer"]
-	path = PyRacer
-	url = git@github.com:SEAME-pt/Team02-PyRacer.git
-[submodule "libs"]
-	path = libs
-	url = git@github.com:SEAME-pt/libs.git
+[submodule "InstrumentCluster"]
+	path = InstrumentCluster
+	url = git@github.com:SEAME-pt/Team02-InstrumentCluster.git
+[submodule "JetRacer"]
+	path = JetRacer
+	url = git@github.com:SEAME-pt/Team02-JetRacer.git
