@@ -16,12 +16,12 @@ fi
 
 executable=$2
 piUserName=team02
-piIpAddress=10.21.221.64
+piIpAddress=10.21.221.19
 piPath=/home/team02
 piPass=seameteam2
 
 echo "build docker image to build app"
-docker build -f DockerfileDeployRasp \
+docker buildx build --platform linux/arm64 --load -f DockerfileDeployRasp \
     --build-arg projectDir=/$projectDir \
     -t final-app .
 echo "Remove tmpapp container if it is exist"
