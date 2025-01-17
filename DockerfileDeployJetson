@@ -1,4 +1,4 @@
-FROM zenohbuildjetson:latest
+FROM ruipires99/jetsoncrosscompile:latest
 
 ARG projectDir
 ARG repoPath
