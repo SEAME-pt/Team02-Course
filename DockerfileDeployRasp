@@ -1,6 +1,5 @@
-FROM raspcrosscompile:latest
+FROM ruipires99/raspcrosscompile:latest
 
-# Update the repoPath according to yours
 ARG projectDir
 ARG repoPath
 
