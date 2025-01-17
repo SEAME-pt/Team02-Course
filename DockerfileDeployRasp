@@ -8,7 +8,7 @@ RUN mkdir -p /home/$projectDir
 
 COPY $projectDir /home/$projectDir
 
-RUN cd $repoPath$projectDir && \
+RUN cd /home/$projectDir && \
     /build/qt6/pi/bin/qt-cmake . \
     -DCMAKE_BUILD_TYPE=Debug \
     -DZENOHCXX_ZENOHC=ON && \
