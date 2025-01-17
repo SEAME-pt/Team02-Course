@@ -1,15 +1,14 @@
 FROM ruipires99/jetsoncrosscompile:latest
 
 ARG projectDir
-ARG repoPath
 
-RUN rm -rf $repoPath$projectDir
+RUN rm -rf /home/$projectDir
 
-RUN mkdir -p $repoPath$projectDir
+RUN mkdir -p /home/$projectDir
 
-COPY $projectDir $repoPath$projectDir
+COPY $projectDir /home/$projectDir
 
-RUN cd $repoPath$projectDir && \
+RUN cd /home/$projectDir && \
     cmake . \
     -DCMAKE_BUILD_TYPE=Debug \
     -DZENOHCXX_ZENOHC=ON && \
