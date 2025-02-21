@@ -31,16 +31,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: related_epics
-    attributes:
-      label: Related Epics
-      description: List any related epics if applicable. Add each related epic as a link or reference number on a new line.
-      placeholder: |
-        - [ ] #
-    validations:
-      required: false
-
   - type: markdown
     attributes:
       value: |
