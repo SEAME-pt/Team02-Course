@@ -22,15 +22,19 @@ jobs:
       - name: Install Doxygen
         run: sudo apt-get install -y doxygen graphviz
 
+      - name: Ensure `docs/` Directory Exists
+        run: mkdir -p docs  # Creates the docs directory before running Doxygen
+
       - name: Generate Doxygen Documentation
         run: |
           doxygen Doxyfile
-          ls -R docs/html  # Debug: Check if all files exist
+          ls -R docs/  # Debug: List contents of docs/ to check if html is created
 
       - name: Deploy Documentation to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: docs/html  # Make sure entire directory is pushed
+          publish_dir: docs/html  # Ensure correct directory is published
           force_orphan: true  # Force clean deployment
+          clean: true  # Clean up old files
