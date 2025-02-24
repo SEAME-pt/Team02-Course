@@ -1,0 +1,9 @@
+[submodule "MicroControllers"]
+	path = MicroControllers
+	url = git@github.com:SEAME-pt/Team02-MicroControllers.git
+[submodule "JetsonNano"]
+	path = JetsonNano
+	url = git@github.com:SEAME-pt/Team02-JetsonNano.git
+[submodule "RaspberryPi"]
+	path = RaspberryPi
+	url = git@github.com:SEAME-pt/Team02-RaspberryPi.git
