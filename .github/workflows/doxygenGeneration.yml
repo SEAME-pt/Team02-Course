@@ -25,7 +25,7 @@ jobs:
       - name: Generate Doxygen Documentation
         run: |
           doxygen Doxyfile
-          ls -R docs/html
+          ls -R docs/html  # Debug: Check if all files exist
 
       - name: Deploy Documentation to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

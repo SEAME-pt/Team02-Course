@@ -16,6 +16,8 @@ GENERATE_MAN          = NO
 GENERATE_RTF          = NO
 GENERATE_XML          = NO
 
+
+
 # Optimize output
 EXTRACT_ALL           = YES
 HIDE_UNDOC_MEMBERS    = NO
@@ -39,5 +41,8 @@ QUIET                 = NO
 GENERATE_TAGFILE      = docs/myproject.tag
 
 # GitHub Pages support
-HTML_OUTPUT           = html
+
+HTML_OUTPUT = docs/html
+SEARCHENGINE = YES
+RECURSIVE = YES
 GENERATE_TREEVIEW     = YES
