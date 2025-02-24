@@ -37,4 +37,3 @@ jobs:
           publish_branch: gh-pages
           publish_dir: docs/html  # Ensure correct directory is published
           force_orphan: true  # Force clean deployment
-          clean: true  # Clean up old files
