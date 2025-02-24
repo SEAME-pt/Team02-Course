@@ -1,0 +1,48 @@
+FROM arm64v8/ubuntu:18.04
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    curl \
+    git \
+    libssl-dev \
+    openssl
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+# Add .cargo/bin to PATH
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN echo "Building CMake from source" && \
+    mkdir cmakeBuild && cd cmakeBuild && \
+    git clone https://github.com/Kitware/CMake.git && \
+    cd CMake && \
+    ./bootstrap && make -j$(nproc) && make install && \
+    echo "CMake build completed"
+
+WORKDIR /tmp
+
+RUN { \
+    git clone https://github.com/eclipse-zenoh/zenoh-c.git && \
+    cd zenoh-c && \
+    git checkout release/1.1.0 && \
+    mkdir build && \
+    cd build && \
+    cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DBUILD_SHARED_LIBS=FALSE && \
+    make -j$(nproc) && \
+    make install && \
+    cd ../.. && \
+    git clone https://github.com/eclipse-zenoh/zenoh-cpp.git && \
+    cd zenoh-cpp && \
+    git checkout release/1.1.0 && \
+    mkdir build && \
+    cd build && \
+    cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DBUILD_SHARED_LIBS=FALSE \
+    -Dzenohc_DIR=/usr/local/lib/cmake/zenohc && \
+    make -j$(nproc) && \
+    make install; \
+}
