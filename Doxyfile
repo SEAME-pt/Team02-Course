@@ -1,0 +1,43 @@
+PROJECT_NAME           = "Team02-Course"
+PROJECT_NUMBER         = "1.0"
+OUTPUT_DIRECTORY       = docs
+
+# Directories to scan
+INPUT                 = JetsonNano MicroControllers RaspberryPi scripts
+RECURSIVE             = YES
+
+# Exclude build artifacts and non-source files
+EXCLUDE               = */build */.git */docs
+
+# Documentation style
+GENERATE_HTML         = YES
+GENERATE_LATEX        = NO
+GENERATE_MAN          = NO
+GENERATE_RTF          = NO
+GENERATE_XML          = NO
+
+# Optimize output
+EXTRACT_ALL           = YES
+HIDE_UNDOC_MEMBERS    = NO
+HIDE_UNDOC_CLASSES    = NO
+HIDE_FRIEND_COMPOUNDS = NO
+
+# Markdown Support
+MARKDOWN_SUPPORT      = YES
+
+# Source browsing options
+SOURCE_BROWSER        = YES
+INLINE_SOURCES        = YES
+REFERENCES_LINK_SOURCE = YES
+
+# Warnings and logging
+WARN_IF_UNDOCUMENTED  = YES
+WARNINGS              = YES
+QUIET                 = NO
+
+# Tag file support (if linking with external docs)
+GENERATE_TAGFILE      = docs/myproject.tag
+
+# GitHub Pages support
+HTML_OUTPUT           = html
+GENERATE_TREEVIEW     = YES
