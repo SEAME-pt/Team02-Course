@@ -5,10 +5,13 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
 
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grants permission to push to the gh-pages branch
 
     steps:
       - name: Checkout Repository with Submodules
@@ -16,14 +19,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Doxygen
-        run: sudo apt-get install -y doxygen graphviz
-
-      - name: Generate Doxygen Documentation
-        run: doxygen Doxyfile
-
       - name: Deploy Documentation to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
         with:
-          branch: gh-pages
-          folder: docs/html
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages  # Deployment branch
+          folder: docs/html  # Folder where Doxygen generates HTML output
+          config_file: Doxyfile  # Path to the Doxygen configuration file
+          doxygen_version: 1.9.6  # Ensures a stable Doxygen version
