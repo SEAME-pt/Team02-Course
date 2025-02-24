@@ -42,7 +42,7 @@ GENERATE_TAGFILE      = docs/myproject.tag
 
 # GitHub Pages support
 
-HTML_OUTPUT = docs/html
+HTML_OUTPUT = docs
 SEARCHENGINE = YES
 RECURSIVE = YES
 GENERATE_TREEVIEW     = YES
