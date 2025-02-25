@@ -1,13 +1,14 @@
 PROJECT_NAME           = "Team02-Course"
-PROJECT_NUMBER         = "1.0"
+PROJECT_NUMBER         = "0.2.0"
 OUTPUT_DIRECTORY       = docs
 
 # Directories to scan
-INPUT                 = JetsonNano MicroControllers RaspberryPi scripts
+INPUT                 = docs scripts
+# JetsonNano MicroControllers RaspberryPi scripts
 RECURSIVE             = YES
 
 # Exclude build artifacts and non-source files
-EXCLUDE               = */build */.git */docs
+EXCLUDE               = */build */.git
 
 # Documentation style
 GENERATE_HTML         = YES
@@ -15,8 +16,6 @@ GENERATE_LATEX        = NO
 GENERATE_MAN          = NO
 GENERATE_RTF          = NO
 GENERATE_XML          = NO
-
-
 
 # Optimize output
 EXTRACT_ALL           = YES
@@ -41,8 +40,7 @@ QUIET                 = NO
 GENERATE_TAGFILE      = docs/myproject.tag
 
 # GitHub Pages support
-
-HTML_OUTPUT = docs
-SEARCHENGINE = YES
-RECURSIVE = YES
+HTML_OUTPUT           = html
 GENERATE_TREEVIEW     = YES
+AUTOLINK_SUPPORT = YES
+USE_MDFILE_AS_MAINPAGE = docs/guidelines/GeneralGuidelines.md  # Set a specific main page
