@@ -1,4 +1,4 @@
-# General Guidelines Team 02 - Mobility Matrix
+@page general_page General Guidelines
 
 ## How to create a new issue
 When creating a new issue, the naming of the issue should define clearly the main topic, or related story and epic, followed by a short description of the task.
@@ -103,10 +103,3 @@ Project folder
 |_____tests
 |_____(...)
 ```
-
-
-
-
-
-
-
