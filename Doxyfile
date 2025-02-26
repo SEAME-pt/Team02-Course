@@ -3,9 +3,7 @@ PROJECT_NUMBER         = "0.2.0"
 OUTPUT_DIRECTORY       = docs
 
 # Directories to scan
-INPUT                 = docs scripts
-
-# JetsonNano MicroControllers RaspberryPi scripts
+INPUT                 = docs scripts JetsonNano MicroControllers RaspberryPi scripts
 RECURSIVE             = YES
 
 # Exclude build artifacts and non-source files
