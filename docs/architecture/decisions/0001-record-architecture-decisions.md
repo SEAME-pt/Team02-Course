@@ -1,5 +1,4 @@
-# 1. Record architecture decisions
-
+@page architecture_decisions1 1. Record architecture decisions
 Date: 2024-12-17
 
 ## Status

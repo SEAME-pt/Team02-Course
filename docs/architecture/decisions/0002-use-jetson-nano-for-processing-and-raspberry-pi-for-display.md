@@ -1,5 +1,4 @@
-# 2. Use Jetson Nano for Processing and Raspberry Pi for Display in Car Cluster
-
+@page architecture_decisions2 2. Use Jetson Nano for Processing and Raspberry Pi for Display in Car Cluster
 Date: 2024-12-18
 
 ## Status

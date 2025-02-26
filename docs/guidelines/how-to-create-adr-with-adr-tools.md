@@ -1,4 +1,4 @@
-# How to Create an Architecture Decision Record (ADR) using ADR Tools
+@page guidelines_howtoadr How to Create an ADR
 
 ## Introduction
 Architecture Decision Records (ADRs) are documents that capture important architectural decisions made along with their context and consequences. ADR Tools is a command-line tool that helps in creating and managing ADRs.
