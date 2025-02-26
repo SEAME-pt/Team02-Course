@@ -1,4 +1,7 @@
-### **Step 1: Identify Your System**
+@page guidelines_clang Clang Instalation Guide
+
+## Step 1: Identify Your System
+
 1. **Operating System**:
    - Windows: Use `LLVM-18.1.8-win64.exe` (or `win32` for 32-bit systems).
    - Linux: Choose the pre-built binary matching your distribution, e.g.:
