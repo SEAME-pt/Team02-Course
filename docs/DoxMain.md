@@ -4,8 +4,6 @@ This file contains the starting point that came from our team brainstorming on t
 Improvements are to be made over time, and logs of future decisions and progress will be added.
 
 
-
-
 &nbsp;
 
 ---
@@ -88,9 +86,27 @@ This document is part of the **Team02-Course** Doxygen-generated documentation.
 - Make sure the Doxyfile: (`MARKDOWN_SUPPORT = YES`) and scan correct directories.
 - Ensure files formated correctly (png/svg/jpg) for Doxygen to render them properly.
 - For responsive images, the `<img>` tags now use `style="max-width:100%; height:auto;"`.
+- Use Doxygen references to create the page structure.
+
+### Currently the files used are:
+
+All the markdown files in docs/ directory and subdirectories.
+- Doxyfile                        - Doxygen config @ repo root.
+- docs/DoxMain.md                 - main page.
+- docs/images                     - pictures presented in the gallery.
+- docs/diagrams                   - Project diagrams and charts.
+- docs/guidelines                 - Project rules and guides.
+- docs/architecture/decisions     - Project ADR.
+
 
 ---
 
 &nbsp;
 
 ---
+
+## Notes:
+
+To do:
+  -  Needs updated ADR
+  -  Add Latest Diagrams and retrospectives / sprint planings numbered.
