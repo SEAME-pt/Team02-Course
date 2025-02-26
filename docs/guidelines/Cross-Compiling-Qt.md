@@ -1,4 +1,4 @@
-# Cross-Compiling Qt for Raspberry Pi 4
+@page guidelines_crosscompile Cross-Compiling Qt for Raspberry Pi 4
 
 This guide provides instructions for cross-compiling Qt for the Raspberry Pi 4 using Docker and QEMU. It includes two scripts:
 1. `buildQTLinux.sh`: Installs Docker and QEMU to simulate the Raspberry Pi environment and builds the Docker image for cross-compiling Qt.
