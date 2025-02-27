@@ -121,7 +121,7 @@
         <mxCell id="DRiJViFjhh1Y6s8fi4oQ-37" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-36">
           <mxGeometry width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="DRiJViFjhh1Y6s8fi4oQ-38" value="&lt;b&gt;Influx DB&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-36">
+        <mxCell id="DRiJViFjhh1Y6s8fi4oQ-38" value="&lt;b&gt;Plugin&lt;br&gt;Influx DB&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-36">
           <mxGeometry y="15" width="70" height="30" as="geometry" />
         </mxCell>
         <mxCell id="DRiJViFjhh1Y6s8fi4oQ-47" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-36">
@@ -148,7 +148,7 @@
         <mxCell id="DRiJViFjhh1Y6s8fi4oQ-56" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-55">
           <mxGeometry width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="DRiJViFjhh1Y6s8fi4oQ-57" value="&lt;b&gt;File System&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-55">
+        <mxCell id="DRiJViFjhh1Y6s8fi4oQ-57" value="&lt;b&gt;Plugin&lt;/b&gt;&lt;div&gt;&lt;b&gt;File System&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-55">
           <mxGeometry x="10" y="15.9" width="70" height="30" as="geometry" />
         </mxCell>
         <mxCell id="DRiJViFjhh1Y6s8fi4oQ-58" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;" vertex="1" parent="DRiJViFjhh1Y6s8fi4oQ-55">
