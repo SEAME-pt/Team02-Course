@@ -1,0 +1,31 @@
+# Using InfluxDB with the "jetracer" Database
+
+This document outlines the basic steps required to work with InfluxDB, including starting the CLI with proper timestamp precision and executing queries.
+
+### Start the Influx CLI (all inside jetson nano)
+
+Before running any queries, start the InfluxDB command-line interface with the following command to set the timestamp precision:
+
+```bash
+influx -precision rfc3339
+```
+
+### Select the database 
+
+
+```bash
+USE jetracer; 
+```
+
+### Querying Data
+
+```bash
+SELECT time, value FROM "Vehicle/1/Body/Lights/DirectionIndicator/Left";
+```
+
+### Additional Considerations
+Time Filtering: You can refine your queries by filtering on time. For example, to retrieve data from the past hour:
+
+```bash
+SELECT time, value FROM "Vehicle/1/Body/Lights/DirectionIndicator/Left" WHERE time > now() - 1h;
+```
