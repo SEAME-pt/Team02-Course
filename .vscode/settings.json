@@ -87,5 +87,6 @@
         "forward_list": "cpp",
         "queue": "cpp",
         "stack": "cpp"
-    }
+    },
+    "liveServer.settings.port": 5501
 }
