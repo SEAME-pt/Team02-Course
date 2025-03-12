@@ -2,15 +2,10 @@
 #include "cuda.h"
 #include "NvInfer.h"
 #include "NvOnnxParser.h"
+#include <omp.h>
 #include <fstream>
 #include <iostream>
 #include <memory>
-
-#include <thread>
-#include <mutex>
-#include <atomic>
-#include <queue>
-#include <condition_variable>
 
 class Logger : public nvinfer1::ILogger
 {
@@ -41,8 +36,6 @@ class LaneDetector
 
     ~LaneDetector()
     {
-        stopThreads = true;
-        condition.notify_all();
         cudaFree(inputDevice);
         cudaFree(outputDevice);
         cudaStreamDestroy(stream);
@@ -75,13 +68,29 @@ class LaneDetector
 
     void run(const std::string& pipeline)
     {
-        stopThreads = false;
-        std::thread capture_thread(&LaneDetector::captureThread, this,
-                                   pipeline);
-        std::thread process_thread(&LaneDetector::processThread, this);
+        cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
+        if (!cap.isOpened())
+        {
+            throw std::runtime_error("Failed to open camera");
+        }
 
-        capture_thread.join();
-        process_thread.join();
+        cv::Mat frame;
+        while (true)
+        {
+            if (!cap.read(frame))
+            {
+                break;
+            }
+
+            detect(frame);
+
+            cv::imshow("Lane Detection", frame);
+
+            if (cv::waitKey(1) == 'q')
+                break;
+        }
+
+        cv::destroyAllWindows();
     }
 
   private:
@@ -92,103 +101,50 @@ class LaneDetector
     std::vector<float> inputData;
     std::vector<float> outputData;
 
-    // Threading members
-    std::queue<cv::Mat> frameQueue;
-    std::mutex queueMutex;
-    std::condition_variable condition;
-    std::atomic<bool> stopThreads{false};
-    static const int MAX_QUEUE_SIZE = 4;
-
-    void captureThread(const std::string& pipeline)
-    {
-        cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
-        if (!cap.isOpened())
-        {
-            throw std::runtime_error("Failed to open camera");
-        }
-
-        while (!stopThreads)
-        {
-            cv::Mat frame;
-            if (!cap.read(frame))
-                continue;
-
-            std::lock_guard<std::mutex> lock(queueMutex);
-            if (frameQueue.size() < MAX_QUEUE_SIZE)
-            {
-                frameQueue.push(frame.clone());
-                condition.notify_one();
-            }
-        }
-        cap.release();
-    }
-
-    void processThread()
-    {
-        while (!stopThreads)
-        {
-            cv::Mat frame;
-            {
-                std::unique_lock<std::mutex> lock(queueMutex);
-                condition.wait(lock, [this]
-                               { return !frameQueue.empty() || stopThreads; });
-
-                if (stopThreads && frameQueue.empty())
-                    break;
-
-                frame = frameQueue.front();
-                frameQueue.pop();
-            }
-
-            detect(frame);
-
-            cv::imshow("Lane Detection", frame);
-            if (cv::waitKey(1) & 0xFF == 'q')
-            {
-                stopThreads = true;
-            }
-        }
-    }
-
     void preProcess(const cv::Mat& frame)
     {
-        cv::Mat resized, float_mat;
-        cv::resize(frame, resized, cv::Size(512, 256));
-        resized.convertTo(float_mat, CV_32F, 1.0 / 255.0);
+        static cv::Mat resized(256, 512, CV_8UC3); // Reuse Mat objects
+        static cv::Mat float_mat(256, 512, CV_32FC3);
 
-        // Convert to NCHW format
-        float* input_data = inputData.data();
+        // Use INTER_LINEAR for better performance vs quality trade-off
+        cv::resize(frame, resized, cv::Size(512, 256), 0, 0, cv::INTER_LINEAR);
+        resized.convertTo(float_mat, CV_32F, 1.0f / 255.0f);
+
+        // Use pointer arithmetic for faster memory access
+        float* input_data    = inputData.data();
+        float* mat_data      = (float*)float_mat.data;
+        const int plane_size = 256 * 512;
+
+        // Optimize channel conversion using memcpy
         for (int c = 0; c < 3; c++)
         {
-            for (int h = 0; h < 256; h++)
+            for (int i = 0; i < plane_size; i++)
             {
-                for (int w = 0; w < 512; w++)
-                {
-                    input_data[c * 256 * 512 + h * 512 + w] =
-                        float_mat.at<cv::Vec3f>(h, w)[c];
-                }
+                input_data[c * plane_size + i] = mat_data[i * 3 + c];
             }
         }
     }
 
     void postProcess(cv::Mat& frame)
     {
-        cv::Mat mask(256, 512, CV_8UC1);
-        for (int h = 0; h < 256; h++)
+        static cv::Mat mask(256, 512, CV_8UC1); // Reuse Mat objects
+        static cv::Mat resized_mask;
+        static cv::Mat colored_mask;
+
+        // Use pointer arithmetic for faster access
+        uchar* mask_data       = mask.data;
+        float* output_data     = outputData.data();
+        const int total_pixels = 256 * 512;
+
+#pragma omp parallel for // Enable OpenMP for parallelization
+        for (int i = 0; i < total_pixels; i++)
         {
-            for (int w = 0; w < 512; w++)
-            {
-                float p0             = outputData[h * 512 + w];
-                float p1             = outputData[256 * 512 + h * 512 + w];
-                mask.at<uchar>(h, w) = (p1 > p0) ? 255 : 0;
-            }
+            float p0     = output_data[i];
+            float p1     = output_data[total_pixels + i];
+            mask_data[i] = (p1 > p0) ? 255 : 0;
         }
 
-        cv::Mat resized_mask;
-        cv::resize(mask, resized_mask, frame.size());
-
-        // Overlay the mask on the frame
-        cv::Mat colored_mask;
+        cv::resize(mask, resized_mask, frame.size(), 0, 0, cv::INTER_LINEAR);
         cv::cvtColor(resized_mask, colored_mask, cv::COLOR_GRAY2BGR);
         cv::addWeighted(frame, 1.0, colored_mask, 0.5, 0.0, frame);
     }
