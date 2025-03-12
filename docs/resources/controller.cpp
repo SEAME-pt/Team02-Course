@@ -24,18 +24,33 @@ class LaneDetector
     LaneDetector(const std::string& enginePath)
     {
         createExecutionContext(enginePath);
-        cudaStreamCreate(&stream);
+
+        // Set highest stream priority
+        int leastPriority, greatestPriority;
+        cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority);
+        cudaStreamCreateWithPriority(&stream, cudaStreamNonBlocking,
+                                     greatestPriority);
+
+        // Pin memory for faster transfers
+        void* input_ptr;
+        void* output_ptr;
+        cudaHostAlloc(&input_ptr, 3 * 128 * 256 * sizeof(float),
+                      cudaHostAllocMapped);
+        cudaHostAlloc(&output_ptr, 2 * 128 * 256 * sizeof(float),
+                      cudaHostAllocMapped);
+        inputData  = static_cast<float*>(input_ptr);
+        outputData = static_cast<float*>(output_ptr);
 
         // Allocate GPU memory
-        cudaMalloc(&inputDevice, 3 * 256 * 512 * sizeof(float));
-        cudaMalloc(&outputDevice, 2 * 256 * 512 * sizeof(float));
-
-        inputData.resize(3 * 256 * 512);
-        outputData.resize(2 * 256 * 512);
+        size_t pitch;
+        cudaMallocPitch(&inputDevice, &pitch, 256 * sizeof(float), 128 * 3);
+        cudaMallocPitch(&outputDevice, &pitch, 256 * sizeof(float), 128 * 2);
     }
 
     ~LaneDetector()
     {
+        cudaFreeHost(inputData);
+        cudaFreeHost(outputData);
         cudaFree(inputDevice);
         cudaFree(outputDevice);
         cudaStreamDestroy(stream);
@@ -43,27 +58,47 @@ class LaneDetector
 
     void detect(cv::Mat& frame)
     {
+        static cudaEvent_t start, stop; // Make events static
+        static bool eventsCreated = false;
+        static cudaGraph_t graph;
+        static cudaGraphExec_t graphExec;
+        static bool graphCreated = false;
+
+        if (!eventsCreated)
+        {
+            cudaEventCreate(&start);
+            cudaEventCreate(&stop);
+            eventsCreated = true;
+        }
+
+        cudaEventRecord(start, stream);
+
         // Preprocess
         preProcess(frame);
 
         // Copy to GPU
-        cudaMemcpyAsync(inputDevice, inputData.data(),
-                        3 * 256 * 512 * sizeof(float), cudaMemcpyHostToDevice,
-                        stream);
+        cudaMemcpyAsync(inputDevice, inputData, 3 * 128 * 256 * sizeof(float),
+                        cudaMemcpyHostToDevice, stream);
 
-        // Run inference
+        // Run inference with optimization flags
         void* bindings[] = {inputDevice, outputDevice};
         context->enqueueV2(bindings, stream, nullptr);
 
         // Copy back to CPU
-        cudaMemcpyAsync(outputData.data(), outputDevice,
-                        2 * 256 * 512 * sizeof(float), cudaMemcpyDeviceToHost,
-                        stream);
+        cudaMemcpyAsync(outputData, outputDevice, 2 * 128 * 256 * sizeof(float),
+                        cudaMemcpyDeviceToHost, stream);
 
         cudaStreamSynchronize(stream);
 
         // Postprocess
         postProcess(frame);
+
+        cudaEventRecord(stop, stream);
+        cudaEventSynchronize(stop);
+
+        float milliseconds = 0;
+        cudaEventElapsedTime(&milliseconds, start, stop);
+        std::cout << "Inference time: " << milliseconds << "ms\n";
     }
 
     void run(const std::string& pipeline)
@@ -75,6 +110,12 @@ class LaneDetector
         }
 
         cv::Mat frame;
+        int frame_count      = 0;
+        const int FRAME_SKIP = 8; // Process every other frame
+
+        // Set camera buffer size
+        cap.set(cv::CAP_PROP_BUFFERSIZE, 1);
+
         while (true)
         {
             if (!cap.read(frame))
@@ -82,9 +123,12 @@ class LaneDetector
                 break;
             }
 
-            detect(frame);
-
-            cv::imshow("Lane Detection", frame);
+            if (frame_count % FRAME_SKIP == 0)
+            {
+                detect(frame);
+                cv::imshow("Lane Detection", frame);
+            }
+            frame_count++;
 
             if (cv::waitKey(1) == 'q')
                 break;
@@ -98,53 +142,54 @@ class LaneDetector
     cudaStream_t stream;
     void* inputDevice;
     void* outputDevice;
-    std::vector<float> inputData;
-    std::vector<float> outputData;
+    float* inputData;
+    float* outputData;
 
     void preProcess(const cv::Mat& frame)
     {
-        static cv::Mat resized(256, 512, CV_8UC3); // Reuse Mat objects
-        static cv::Mat float_mat(256, 512, CV_32FC3);
+        static cv::Mat resized(128, 256, CV_8UC3);
+        static cv::Mat float_mat(128, 256, CV_32FC3);
 
-        // Use INTER_LINEAR for better performance vs quality trade-off
-        cv::resize(frame, resized, cv::Size(512, 256), 0, 0, cv::INTER_LINEAR);
-        resized.convertTo(float_mat, CV_32F, 1.0f / 255.0f);
+        // Use INTER_NEAREST for faster resizing
+        cv::resize(frame, resized, cv::Size(256, 128), 0, 0, cv::INTER_NEAREST);
 
-        // Use pointer arithmetic for faster memory access
-        float* input_data    = inputData.data();
-        float* mat_data      = (float*)float_mat.data;
-        const int plane_size = 256 * 512;
+        // Optimize memory access pattern
+        const int plane_size      = 128 * 256;
+        const uint8_t* frame_data = resized.data;
 
-        // Optimize channel conversion using memcpy
+        // Set number of threads for OpenMP
+        omp_set_num_threads(4);
+
+// Use collapse(2) to better parallelize nested loops
+#pragma omp parallel for collapse(2) schedule(static)
         for (int c = 0; c < 3; c++)
         {
             for (int i = 0; i < plane_size; i++)
             {
-                input_data[c * plane_size + i] = mat_data[i * 3 + c];
+                // Direct memory access optimization
+                inputData[c * plane_size + i] = frame_data[i * 3 + c] / 255.0f;
             }
         }
     }
 
     void postProcess(cv::Mat& frame)
     {
-        static cv::Mat mask(256, 512, CV_8UC1); // Reuse Mat objects
+        static cv::Mat mask(128, 256, CV_8UC1);
         static cv::Mat resized_mask;
         static cv::Mat colored_mask;
 
-        // Use pointer arithmetic for faster access
         uchar* mask_data       = mask.data;
-        float* output_data     = outputData.data();
-        const int total_pixels = 256 * 512;
+        const int total_pixels = 128 * 256;
 
-#pragma omp parallel for // Enable OpenMP for parallelization
+#pragma omp parallel for
         for (int i = 0; i < total_pixels; i++)
         {
-            float p0     = output_data[i];
-            float p1     = output_data[total_pixels + i];
+            float p0     = outputData[i];
+            float p1     = outputData[total_pixels + i];
             mask_data[i] = (p1 > p0) ? 255 : 0;
         }
 
-        cv::resize(mask, resized_mask, frame.size(), 0, 0, cv::INTER_LINEAR);
+        cv::resize(mask, resized_mask, frame.size(), 0, 0, cv::INTER_NEAREST);
         cv::cvtColor(resized_mask, colored_mask, cv::COLOR_GRAY2BGR);
         cv::addWeighted(frame, 1.0, colored_mask, 0.5, 0.0, frame);
     }
@@ -173,7 +218,7 @@ class LaneDetector
 
 int main(int argc, char** argv)
 {
-    const std::string enginePath = "lane_segmentation.engine";
+    const std::string enginePath = "model_segmentation-128-256.engine";
     const std::string pipeline =
         "nvarguscamerasrc sensor-id=0 ! "
         "video/x-raw(memory:NVMM), width=640, height=480, format=NV12, "

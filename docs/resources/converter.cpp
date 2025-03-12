@@ -31,9 +31,8 @@ template <class T> using TRTUniquePtr = std::unique_ptr<T, TRTDestroy>;
 int main(void)
 {
     Logger logger;
-    int memorySize               = 1024;
-    const std::string onnxFile   = "lane_segmentation.onnx";
-    const std::string enginePath = "lane_segmentation.engine";
+    const std::string onnxFile   = "model_segmentation-128-256.onnx";
+    const std::string enginePath = "model_segmentation-128-256.engine";
 
     // Check if the ONNX file exists
     std::ifstream ifile(onnxFile);
@@ -73,24 +72,38 @@ int main(void)
     // Create config with smart pointer
     TRTUniquePtr<nvinfer1::IBuilderConfig> config(
         builder->createBuilderConfig());
-    config->setMaxWorkspaceSize(1024 * 1024 * memorySize);
-    config->setFlag(nvinfer1::BuilderFlag::kFP16);
+
+    config->setMaxWorkspaceSize(256 << 20); // 256MB instead of 1GB
+
+    // Enable FP16 for memory efficiency
+    if (builder->platformHasFastFp16())
+    {
+        std::cout << "Enabling FP16 precision..." << std::endl;
+        config->setFlag(nvinfer1::BuilderFlag::kFP16);
+    }
+
+    // Add memory optimization flags
+    config->setFlag(nvinfer1::BuilderFlag::kTF32); // Enable TF32 computation
+    config->setFlag(nvinfer1::BuilderFlag::kSPARSE_WEIGHTS);
+
+    // Set default device type to GPU
+    config->setDefaultDeviceType(nvinfer1::DeviceType::kGPU);
+
+    // Only set DLA core if available
+    if (builder->getNbDLACores() > 0)
+    {
+        config->setDLACore(0);
+    }
 
     nvinfer1::IOptimizationProfile* profile =
         builder->createOptimizationProfile();
 
-    // Set dimensions matching your ONNX model:
-    // Batch size: 1
-    // Channels: 3 (RGB)
-    // Height: 256
-    // Width: 512
+    // Set dimensions matching your ONNX model
+    nvinfer1::Dims4 dims(1, 3, 128, 256);
     profile->setDimensions("input", // Input tensor name from ONNX model
-                           nvinfer1::OptProfileSelector::kMIN,
-                           nvinfer1::Dims4(1, 3, 256, 512));
-    profile->setDimensions("input", nvinfer1::OptProfileSelector::kOPT,
-                           nvinfer1::Dims4(1, 3, 256, 512));
-    profile->setDimensions("input", nvinfer1::OptProfileSelector::kMAX,
-                           nvinfer1::Dims4(1, 3, 256, 512));
+                           nvinfer1::OptProfileSelector::kMIN, dims);
+    profile->setDimensions("input", nvinfer1::OptProfileSelector::kOPT, dims);
+    profile->setDimensions("input", nvinfer1::OptProfileSelector::kMAX, dims);
 
     config->addOptimizationProfile(profile);
 
