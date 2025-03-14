@@ -2,9 +2,7 @@
 
 ## Dataset Requirements
 1. Data Sources
-   - Custom captured road scenes
-   - Public datasets (TUSimple)
-   - Day conditions
+   - Public dataset (TUSimple)
 
 2. Annotations
    - Binary segmentation masks
