@@ -86,7 +86,7 @@
         "execution": "cpp",
         "forward_list": "cpp",
         "queue": "cpp",
-        "stack": "cpp",
-        "fstream": "cpp"
-    }
+        "stack": "cpp"
+    },
+    "liveServer.settings.port": 5501
 }
