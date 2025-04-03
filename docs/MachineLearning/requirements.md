@@ -3,6 +3,7 @@
 ## Dataset Requirements
 1. Data Sources
    - Public dataset (TUSimple)
+   - Add pictures from lab to dataset
 
 2. Annotations
    - Binary segmentation masks
@@ -16,7 +17,7 @@
 
 ## Training Process
 1. Hardware Requirements
-   - GPU: NVIDIA RTX 3080 or better
+   - GPU: NVIDIA RTX 2000 Ada Generation or better
    - RAM: 16GB minimum
    - Storage: 500GB SSD
 
