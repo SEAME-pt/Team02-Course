@@ -10,3 +10,6 @@
 [submodule "MachineLearning"]
 	path = MachineLearning
 	url = git@github.com:SEAME-pt/Team02-MachineLearning.git
+[submodule "Dataset"]
+	path = Dataset
+	url = git@github.com:SEAME-pt/Team02-Dataset.git
