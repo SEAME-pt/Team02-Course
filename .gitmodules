@@ -7,3 +7,9 @@
 [submodule "RaspberryPi"]
 	path = RaspberryPi
 	url = git@github.com:SEAME-pt/Team02-RaspberryPi.git
+[submodule "MachineLearning"]
+	path = MachineLearning
+	url = git@github.com:SEAME-pt/Team02-MachineLearning.git
+[submodule "Dataset"]
+	path = Dataset
+	url = git@github.com:SEAME-pt/Team02-Dataset.git
