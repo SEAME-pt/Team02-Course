@@ -41,7 +41,6 @@ Contains all the code running on the Jetson Nano, which serves as the main compu
 Contains code for the Raspberry Pi, which manages the instrument cluster and user interfaces:
 
 - Dashboard displays
-- System status monitoring
 
 ### MicroController
 
