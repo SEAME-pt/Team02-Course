@@ -88,5 +88,6 @@
         "queue": "cpp",
         "stack": "cpp"
     },
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "cmake.sourceDirectory": "/home/lpicoli-/Documents/mayTeam2/RaspberryPi/Clusters/HandCluster/src/publisher/lanes-publisher"
 }
