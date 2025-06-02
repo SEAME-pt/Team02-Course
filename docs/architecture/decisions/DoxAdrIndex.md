@@ -14,4 +14,4 @@ Team decisions are registered and organized here by date order:
 * @subpage architecture_decisions10
 * @subpage architecture_decisions11
 * @subpage architecture_decisions12
-
+* @subpage architecture_decisions13
