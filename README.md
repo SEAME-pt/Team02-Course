@@ -21,6 +21,7 @@ Team02-Course/
 ├── MicroController/    # Arduino code for sensors/actuators
 ├── MachineLearning/    # ML models for perception
 ├── Dataset/            # Dataset management and generation
+├── ADAS_SIL/           # A Software-in-the-Loop (SIL) testing environment
 └── README.md           # This documentation file
 ```
 
