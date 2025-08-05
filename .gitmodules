@@ -13,3 +13,6 @@
 [submodule "Dataset"]
 	path = Dataset
 	url = git@github.com:SEAME-pt/Team02-Dataset.git
+[submodule "Team02-CarlaSimulation"]
+	path = Team02-CarlaSimulation
+	url = git@github.com:SEAME-pt/Team02-CarlaSimulation.git
