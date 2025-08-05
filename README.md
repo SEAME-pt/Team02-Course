@@ -67,6 +67,15 @@ Tools and resources for dataset management:
 - Dataset preprocessing pipelines
 - Future: Code for generating synthetic datasets using Carla
 
+### ADAS_SIL
+
+This project provides a comprehensive testing framework for validating lane detection and object detection algorithms in the CARLA simulation environment:
+
+- Integration with CARLA simulator for realistic driving scenarios
+- ONNX-based machine learning models for lane and object detection
+- Real-time visualization with Pygame
+- Zenoh-based communication for distributed processing
+
 ## Getting Started
 
 Each submodule contains its own documentation with specific setup instructions. To clone the repository with all submodules:
