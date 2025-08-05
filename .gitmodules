@@ -16,3 +16,6 @@
 [submodule "ADAS_SIL"]
 	path = ADAS_SIL
 	url = git@github.com:SEAME-pt/Team02-ADAS_SIL.git
+[submodule "Libs"]
+	path = Libs
+	url = git@github.com:SEAME-pt/Team02-Libs.git
