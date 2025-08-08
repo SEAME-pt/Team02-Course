@@ -12,6 +12,7 @@ Our autonomous vehicle platform integrates multiple computing systems, sensors, 
 - Machine learning models for perception tasks
 - Dataset collection and management tools
 
+![clicke here](https://github.com/SEAME-pt/Team02-Course/blob/features-readme/docs/guidelines/features.md) to check all the features in a visual way. 
 ## Repository Structure
 
 ```
