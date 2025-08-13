@@ -23,7 +23,7 @@ Team02-Course/
 ├── MachineLearning/    # ML models for perception
 ├── Dataset/            # Dataset management and generation
 ├── ADAS_SIL/           # A Software-in-the-Loop (SIL) testing environment
-└── Libs/               # Libray
+└── Libs/               # Shared libraries and utilities for cross-module functionality
 ```
 
 ## Components
@@ -82,5 +82,5 @@ This project provides a comprehensive testing framework for validating lane dete
 Each submodule contains its own documentation with specific setup instructions. To clone the repository with all submodules:
 
 ```bash
-git clone --recursive https://github.com/yourusername/Team02-Course.git
+git clone --recursive https://github.com/SEAME/Team02-Course.git
 ```
