@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.1">
   <diagram name="Page-1" id="OM_sHuSEF1frfqFUFy3i">
-    <mxGraphModel dx="1886" dy="1810" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1572" dy="1508" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -35,7 +35,7 @@
           <mxGeometry x="482" y="709" width="130" height="54" as="geometry" />
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-11" value="Combined Controller" style="whiteSpace=wrap;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;" parent="1" vertex="1">
-          <mxGeometry x="450" y="930" width="209" height="54" as="geometry" />
+          <mxGeometry x="544" y="940" width="209" height="54" as="geometry" />
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-12" value="Vehicle System" style="whiteSpace=wrap;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="427.5" y="803" width="167" height="54" as="geometry" />
@@ -83,7 +83,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-23" value="frames" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=13;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontColor=default;labelBackgroundColor=default;exitDx=0;exitDy=0;" parent="1" source="tz2Queb-3kquGu2dCrOk-7" target="tz2Queb-3kquGu2dCrOk-10" edge="1">
-          <mxGeometry x="-0.0665" y="-21" relative="1" as="geometry">
+          <mxGeometry x="-0.1547" y="-9" relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="314" y="770" />
             </Array>
@@ -116,14 +116,14 @@
           <mxGeometry x="-0.1515" y="-4" relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="860" y="1050" />
-              <mxPoint x="980" y="980" />
-              <mxPoint x="1080" y="870" />
+              <mxPoint x="1030" y="960" />
+              <mxPoint x="1080" y="860" />
             </Array>
             <mxPoint x="1" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-28" value="publish speed &amp; battery" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.51;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=-10;entryPerimeter=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=13;fontColor=default;labelBackgroundColor=default;" parent="1" source="tz2Queb-3kquGu2dCrOk-13" target="tz2Queb-3kquGu2dCrOk-4" edge="1">
-          <mxGeometry x="-0.0777" y="23" relative="1" as="geometry">
+          <mxGeometry x="-0.2231" y="16" relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="830" y="610" />
             </Array>
@@ -134,32 +134,31 @@
         <mxCell id="tz2Queb-3kquGu2dCrOk-29" value="subscribe autonomous level" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.25;rounded=0;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=13;fontColor=default;labelBackgroundColor=default;" parent="1" source="tz2Queb-3kquGu2dCrOk-10" edge="1">
           <mxGeometry x="-0.1951" y="15" relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="810" y="640" />
+              <mxPoint x="810" y="650" />
             </Array>
             <mxPoint x="980" y="490" as="targetPoint" />
             <mxPoint x="-1" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-30" value="subscribe perception" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.06;rounded=0;entryX=0.363;entryY=1.03;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=13;fontColor=default;labelBackgroundColor=default;" parent="1" source="tz2Queb-3kquGu2dCrOk-11" target="tz2Queb-3kquGu2dCrOk-4" edge="1">
-          <mxGeometry x="0.0032" y="4" relative="1" as="geometry">
+          <mxGeometry x="-0.0432" y="5" relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="800" y="900" />
-              <mxPoint x="890" y="840" />
-              <mxPoint x="940" y="740" />
+              <mxPoint x="830" y="920" />
+              <mxPoint x="920" y="850" />
+              <mxPoint x="960" y="740" />
             </Array>
             <mxPoint x="1010" y="500" as="targetPoint" />
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-31" value="publish control" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.83;rounded=0;entryX=0.446;entryY=0.983;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=13;fontColor=default;labelBackgroundColor=default;" parent="1" source="tz2Queb-3kquGu2dCrOk-11" target="tz2Queb-3kquGu2dCrOk-4" edge="1">
-          <mxGeometry x="0.0077" relative="1" as="geometry">
+          <mxGeometry x="-0.0439" y="29" relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="880" y="930" />
-              <mxPoint x="960" y="850" />
-              <mxPoint x="1000" y="750" />
+              <mxPoint x="900" y="950" />
+              <mxPoint x="1030" y="870" />
             </Array>
             <mxPoint x="1020" y="500" as="targetPoint" />
-            <mxPoint y="-1" as="offset" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="tz2Queb-3kquGu2dCrOk-32" value="subscribe control" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.25;rounded=0;exitDx=0;exitDy=0;entryX=0.255;entryY=0.983;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=13;fontColor=default;labelBackgroundColor=default;" parent="1" source="tz2Queb-3kquGu2dCrOk-12" target="tz2Queb-3kquGu2dCrOk-4" edge="1">
